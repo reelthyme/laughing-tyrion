@@ -1,0 +1,10 @@
+package main;
+
+public class QuadTreeNode<T> {
+
+Arraylist<T> elements;
+	public QuadTreeNode(){
+		
+	}
+	
+}

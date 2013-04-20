@@ -1,0 +1,11 @@
+package main;
+
+public class Movable {
+	
+	private float vx;
+	private float vy;
+	private float ax;
+	private float ay;
+	
+	
+}

@@ -1,0 +1,37 @@
+package main;
+
+import java.util.ArrayList;
+
+public class QuadTreeNode<Collidable> {
+
+ArrayList<Collidable> elements;
+final int MAX_PIECES_BEFORE_SPLIT_ATTEMPT=1;
+float cx;
+float cy;
+float height;
+float width;
+QuadTreeNode<Collidable> parent;
+QuadTreeNode<Collidable> northWest;
+QuadTreeNode<Collidable> northEast;
+QuadTreeNode<Collidable> southWest;
+QuadTreeNode<Collidable> southEast;
+
+	public QuadTreeNode<Collidable>(float cx,float cy, float height, float width, QuadTreeNode<Collidable> parent)
+	{
+		this.parent=parent;
+		this.cx=cx;
+		this.cy=cy;
+		this.height=height;
+		this.width=width;
+		elements=new ArrayList<Collidable>(0);
+	}
+	
+	public boolean insert(Collidable piece){
+		
+		return true;
+	}
+	
+	
+	
+	
+}

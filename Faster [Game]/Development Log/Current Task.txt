@@ -1,0 +1,4 @@
+Have a ClassNotFoundException:
+Exception in thread "main" java.lang.NoClassDefFoundError: org/lwjgl/LWJGLException
+	at main.FasterGame.main(FasterGame.java:38)
+Caused by: java.lang.ClassNotFoundException: org.lwjgl.LWJGLException

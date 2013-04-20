@@ -1,0 +1,184 @@
+package main;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import main.CollisionTest.RedFill;
+
+import org.newdawn.slick.Color;
+import org.newdawn.slick.ShapeFill;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.ShapeRenderer;
+import org.newdawn.slick.geom.Vector2f;
+
+public class QuadTreeNode<T extends Collidable> {
+
+	ArrayList<T> elements;
+	final int MAX_PIECES_BEFORE_SPLIT_ATTEMPT = 1;
+	final int MAX_DEPTH=5;
+	int DEPTH;
+	float cx;
+	float cy;
+	float height;
+	float width;
+	QuadTreeNode<T> parent;
+	QuadTreeNode<T> topLeft;
+	QuadTreeNode<T> topRight;
+	QuadTreeNode<T> bottomLeft;
+	QuadTreeNode<T> bottomRight;
+	/**
+	   * Creates a new instance of QuadTreeNode
+	   * @param cx Center x position of the new node
+	   * @param cy Center y position of the new node
+	   * @param width
+	   * @param height
+	   * @param 
+	   * @return the new instance
+	   */
+	public QuadTreeNode(float cx, float cy, float width, float height,
+			QuadTreeNode<T> parent) {
+		//System.out.println("cx: " + cx + ", cy: " + cy + ", width: " + width + ", height: " +height);
+		this.parent = parent;
+		this.cx = cx;
+		this.cy = cy;
+		this.height = height;
+		this.width = width;
+		if(parent!=null){this.DEPTH=parent.DEPTH+1;}
+		else{this.DEPTH=0;}
+		elements = new ArrayList<T>(0);
+	}
+
+	// pseudo code: Try to fit piece into node X
+	// if there are more than 1 pieces in nodeX, and the depth of the
+	// node<MAXDEPTH, subdivide it.
+	// try and place both of the objects in a sub-node (you only have to try
+	// once,try the sub-node that
+	// contains the center of the rectangle.
+	// you can do a naive insert as well, testing all 4 points
+	boolean split = false; //marks whether the tree has split yet.
+	public boolean insert(T piece) {
+		if (DEPTH<MAX_DEPTH) {
+			int index = getIndex(piece.rect);
+			if(index==0){insertTopRight(piece);}
+			else if(index==1){insertTopLeft(piece);}
+			else if(index==2){insertBottomLeft(piece);}
+			else if(index==3){insertBottomRight(piece);}
+			else{elements.add(piece);}}
+			else{elements.add(piece);}
+		return true;
+	}
+
+	private boolean insertTopLeft(T piece) {  //1
+		if (topLeft==null){topLeft=new QuadTreeNode<T>(cx-width/4, cy-height/4, width/2, height/2, this);}
+		return topLeft.insert(piece);
+	}
+	private boolean insertTopRight(T piece) {  //0
+		if (topRight==null){topRight=new QuadTreeNode<T>(cx+width/4, cy-height/4, width/2, height/2, this);}
+		return topRight.insert(piece);
+	}
+	private boolean insertBottomLeft(T piece) { //2
+		if (bottomLeft==null){bottomLeft=new QuadTreeNode<T>(cx-width/4, cy+height/4, width/2, height/2, this);}
+		return bottomLeft.insert(piece);
+	}
+	private boolean insertBottomRight(T piece) { //3
+		if (bottomRight==null){bottomRight=new QuadTreeNode<T>(cx+width/4, cy+height/4, width/2, height/2, this);}
+		return bottomRight.insert(piece);
+	}
+	/*
+	 * Determine which node the object belongs to. -1 means
+	 * object cannot completely fit within a child node and is part
+	 * of the parent node
+	 */
+	 public int getIndex(Rectangle rect) {
+	   int index = -1;
+	   
+	 
+	   // Object can completely fit within the top quadrants
+	   boolean topQuadrant = (rect.getMinY()>(cy-height/2) && rect.getMaxY() < cy);
+	   // Object can completely fit within the bottom quadrants
+	   boolean bottomQuadrant = (rect.getMaxY()<(cy+height/2) && rect.getMinY() > cy);
+	 
+	   // Object can completely fit within the left quadrants
+	   if (rect.getMaxX() < cx && rect.getMinX()>(cx-width/2)) {
+	      if (topQuadrant) {
+	        index = 1;
+	      }
+	      else if (bottomQuadrant) {
+	        index = 2;
+	      }
+	    }
+	    // Object can completely fit within the right quadrants
+	    else if (rect.getMinX() > cx && rect.getMaxX() < (cx+width/2)) {
+	     if (topQuadrant) {
+	       index = 0;
+	     }
+	     else if (bottomQuadrant) {
+	       index = 3;
+	     }
+	   }
+	 
+	   return index;
+	 }
+	 public void clear() {
+		   elements.clear();
+		   if(topLeft!=null){topLeft.clear(); topLeft=null;}
+		   if(topRight!=null){topRight.clear(); topRight=null;}
+		   if(bottomLeft!=null){bottomLeft.clear(); bottomLeft=null;}
+		   if(bottomRight!=null){bottomRight.clear(); bottomRight=null;}
+	 }
+	 
+	 public List<Collidable> retrieve(List<Collidable> returnObjects, Rectangle rect) {
+		   int index = getIndex(rect);
+		   if (index != -1){
+			   if(index==0){topRight.retrieve(returnObjects, rect);}
+				else if(index==1){topLeft.retrieve(returnObjects, rect);}
+				else if(index==2){bottomLeft.retrieve(returnObjects, rect);}
+				else if(index==3){bottomRight.retrieve(returnObjects, rect);}
+		   }
+		 
+		   returnObjects.addAll(elements);
+		 
+		   return returnObjects;
+		 }
+		 
+	 class MyFill implements ShapeFill{ //determines the color that the quad is rendered in debug mode
+			@Override
+			public Color colorAt(Shape shape, float x, float y) {
+				if(DEPTH==0){return Color.green;}
+				else if(DEPTH==1){return Color.yellow;} //yelllow
+				else if(DEPTH==2){return Color.cyan;} //cyan
+				else if(DEPTH==3){return Color.white;} //white
+				else if(DEPTH==4){return Color.blue;} //blue
+				else{return Color.pink;}
+			}
+
+			@Override
+			public Vector2f getOffsetAt(Shape shape, float x, float y) {
+				// TODO Auto-generated method stub
+				return new Vector2f(0,0);
+			}
+		}
+	 public void render(){
+		 Rectangle quad = new Rectangle(cx-width/2, cy-height/2, width, height);
+		 ShapeRenderer.draw(quad, new MyFill());
+		 if(topLeft!=null){topLeft.render();}
+		   if(topRight!=null){topRight.render();}
+		   if(bottomLeft!=null){bottomLeft.render();}
+		   if(bottomRight!=null){bottomRight.render();}
+	 }
+	 public void render(org.newdawn.slick.Graphics g, String s){
+		 Rectangle quad = new Rectangle(cx-width/2, cy-height/2, width, height);
+		 ShapeRenderer.draw(quad, new MyFill());
+		 for(Collidable c: elements){
+		 g.drawString(s+String.valueOf(this.getIndex(c.rect)), c.rect.getCenterX(), c.rect.getCenterY());
+		 }
+		 if(topLeft!=null){topLeft.render(g, s+"1, ");}
+		   if(topRight!=null){topRight.render(g, s+"0, ");}
+		   if(bottomLeft!=null){bottomLeft.render(g, s+"2, ");}
+		   if(bottomRight!=null){bottomRight.render(g, s+"3, ");}
+	 }
+		   
+		 
+
+}

@@ -1,0 +1,20 @@
+package main;
+
+import java.util.ArrayList;
+
+public class QuadTreeNode<T> {
+
+ArrayList<T> elements;
+int MAX_PIECES_BEFORE_SPLIT_ATTEMPT=2;
+
+QuadTreeNode<T> northWest;
+QuadTreeNode<T> northEast;
+QuadTreeNode<T> southWest;
+QuadTreeNode<T> southEast;
+	public QuadTreeNode(){
+		elements=new ArrayList<T>(0);
+	}
+	
+	
+	
+}

@@ -1,0 +1,186 @@
+package main;
+
+import java.util.ArrayList;
+
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Animation;
+//import org.newdawn.slick.Game;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Point;
+import org.newdawn.slick.geom.Polygon;
+import org.newdawn.slick.geom.Rectangle;
+
+public class CollideTest extends BasicGame {
+	public CollideTest(String title) {
+		super(title);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void init(GameContainer arg0) throws SlickException {
+		yukari = new Image("img/yakumo_yukari.png");
+
+		String tenshiFolder = "img/tenshi/";
+		Image[] tenshi_run_frames = {
+				new Image(tenshiFolder + "Tenshi_Runf0.png"),
+				new Image(tenshiFolder + "Tenshi_Runf1.png"),
+				new Image(tenshiFolder + "Tenshi_Runf2.png"),
+				new Image(tenshiFolder + "Tenshi_Runf3.png"), };
+
+		Image[] tenshi_stance_frames = {
+				new Image(tenshiFolder + "Tenshi_Stancef0.png"),
+				new Image(tenshiFolder + "Tenshi_Stancef1.png"),
+				new Image(tenshiFolder + "Tenshi_Stancef2.png"),
+				new Image(tenshiFolder + "Tenshi_Stancef3.png"),
+				new Image(tenshiFolder + "Tenshi_Stancef4.png"),
+				new Image(tenshiFolder + "Tenshi_Stancef5.png"),
+				new Image(tenshiFolder + "Tenshi_Stancef6.png"),
+				new Image(tenshiFolder + "Tenshi_Stancef7.png"), };
+
+		tenshi_run = new Animation(tenshi_run_frames, 100, true);
+		tenshi_stance = new Animation(tenshi_stance_frames, 120, true);
+
+		// generate shapes
+		Circle c1 = new Circle(100, 100, 30);
+		Rectangle r1 = new Rectangle(200, 100, 20, 50);
+
+		Polygon t1 = new Polygon(new float[] { 300, 100, 400, 100, 350, 200 });
+		collidables.add(new Collidable(c1));
+		collidables.add(new Collidable(r1));
+		collidables.add(new Collidable(t1));
+
+	}
+
+	double tenshiX = 100;
+	Image yukari;
+	Animation tenshi_stance;
+	Animation tenshi_run;
+
+	@Override
+	public void render(GameContainer arg0, Graphics g) throws SlickException {
+		for (Collidable c : collidables) {
+			c.render();
+		}
+		g.drawString(message, 10, 50);
+	}
+
+	ArrayList<Collidable> collidables = new ArrayList<Collidable>();
+	private int elapsedTime; // The time that has passed, reset to 0 after +-1
+								// sec.
+	
+
+	@Override
+	public void update(GameContainer arg0, int delta) throws SlickException {
+		for (Collidable c : collidables) {
+			c.colliding = false;
+		}
+
+		Collidable c = firstCollisionWithPoint(mx, my);
+		if (c != null) {
+			c.colliding = true;
+		}
+	}
+
+	public static void main(String[] args) {
+		try {
+			AppGameContainer app = new AppGameContainer(new CollideTest(
+					"CollideTest [Test]"));
+			app.setMinimumLogicUpdateInterval(17); // about 60 frames per second
+			app.setMaximumLogicUpdateInterval(17);
+			app.setDisplayMode(500, 400, false);
+
+			app.start();
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void keyPressed(int key, char c) {
+
+	}
+
+	public void keyReleased(int key, char c) {
+
+	}
+
+	private Collidable firstCollisionWithPoint(double x, double y) {
+
+		for (Collidable c : collidables) {
+			if (checkCollision(c, x, y)) {
+				return c;
+			}
+		}
+		return null;
+	}
+
+	private boolean checkCollision(Collidable c, double x, double y) {
+		if (c.boxType == "c") { //the built in function doesn't work with circles so manually test in that case
+			//System.out.println("cir testing");
+			float radius = ((Circle) c.getCollisionShape()).radius;
+			float circleX = ((Circle) c.getCollisionShape()).getCenterX();
+			float circleY = ((Circle) c.getCollisionShape()).getCenterY();
+			if (radius * radius > ((circleX - x) * (circleX - x) + (circleY - y)
+					* (circleY - y))) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		if (c.getCollisionShape().contains((float) x, (float) y)) {
+			return true;
+		}
+		return false;
+	}
+
+	String message = "";
+	boolean buttonDown;
+
+	Collidable selectedCollidable; //the collidable the mouse has picked up, null if nothing is picked up.
+	public void mousePressed(int button, int x, int y) {
+		if (button == 0) {
+			buttonDown = true;
+			selectedCollidable = firstCollisionWithPoint(x, y);
+			System.out.println(selectedCollidable);
+			
+			
+		}
+
+		message = "Mouse pressed " + button + " " + x + "," + y;
+		// look for a collidable that's in range.
+		
+
+	}
+
+	public void mouseReleased(int button, int x, int y) {
+		if (button == 0) {
+			buttonDown = false;
+		}
+
+		message = "Mouse released " + button + " " + x + "," + y;
+		selectedCollidable = null;
+	}
+
+	int mx; // mousex
+	int my;
+
+	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
+		
+		if (buttonDown) {
+			if(selectedCollidable!=null){
+				selectedCollidable.x=newx;
+				selectedCollidable.y=newy;
+				System.out.println(newx + " " + newy);
+			}
+		}
+		mx = newx;
+		my = newy;
+	}
+
+}

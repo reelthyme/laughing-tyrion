@@ -1,0 +1,7 @@
+package main;
+
+public class QuadTreeNode<T> {
+
+	public QuadTreeNode<T>()
+	
+}

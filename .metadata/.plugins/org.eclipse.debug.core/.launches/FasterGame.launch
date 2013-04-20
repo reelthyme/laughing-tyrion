@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/Faster [Game]/src/main/FasterGameTest.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<mapAttribute key="org.eclipse.debug.core.environmentVariables">
+<mapEntry key="LWJGL" value="-Djava.library.path=&quot;C:\\Users\\Co Ta\\Desktop\\Eclipse Projects\\Faster [Game]\\lib\\lwjgl-2.8.5\\native\\windows&quot;"/>
+</mapAttribute>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="main.FasterGameTest"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Faster [Game]"/>
+</launchConfiguration>

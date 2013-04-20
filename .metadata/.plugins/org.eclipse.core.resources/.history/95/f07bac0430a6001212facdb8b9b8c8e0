@@ -1,0 +1,17 @@
+package main;
+
+import java.util.ArrayList;
+
+public class QuadTreeNode<T> {
+
+ArrayList<T> elements;
+
+QuadTreeNode northWest;
+QuadTreeNode northEast;
+QuadTreeNode southWest;
+QuadTreeNode southEast;
+	public QuadTreeNode(){
+		
+	}
+	
+}

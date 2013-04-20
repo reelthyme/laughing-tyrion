@@ -1,0 +1,7 @@
+package main;
+
+public class Movable {
+	private float angle = Math.random()*2*Math.PI;
+	private float vx;
+	private float vy;
+}

@@ -1,0 +1,24 @@
+Current Task:
+Broad-phase collision detection using quadtrees
+
+Tile System: Doing it on my own.
+-first need a drag and drop system  for shapes.
+Existing collision detection for basic shapes.
+
+Possible Future Tasks:
+Spritesheet
+Menu
+GUI
+
+Postponed:
+Editing the source files and recompiling the jar
+Changing the get currentFrame to run update logic first. This is in slick.animation.java
+
+
+Done:
+Making the inputchange which image is displayed when left or right is held down.
+How to transform (flip) an image
+rendering gif animations
+
+Notes: 
+4.18.2013 When I finish broad-phase and narrow-phase collision detection, I'm going to do a class listing with a description of all classes. I'll also do a big refactor to make sure the classes do what the specifications and to clean up the coding mess left behind. Reviewing packages and determining class interactions will help as well. Beyond that point, the project will be a bunch of interacting parts, so it will have to be thoughfully and well constructed.

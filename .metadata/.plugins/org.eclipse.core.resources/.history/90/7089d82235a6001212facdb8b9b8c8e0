@@ -1,0 +1,60 @@
+package main;
+
+import java.util.ArrayList;
+
+public class QuadTreeNode<T extends Collidable> {
+
+	ArrayList<T> elements;
+	final int MAX_PIECES_BEFORE_SPLIT_ATTEMPT = 1;
+	float cx;
+	float cy;
+	float height;
+	float width;
+	QuadTreeNode<T> parent;
+	QuadTreeNode<T> topLeft;
+	QuadTreeNode<T> topRight;
+	QuadTreeNode<T> bottomLeft;
+	QuadTreeNode<T> bottomRight;
+
+	public QuadTreeNode(float cx, float cy, float height, float width,
+			QuadTreeNode<T> parent) {
+		this.parent = parent;
+		this.cx = cx;
+		this.cy = cy;
+		this.height = height;
+		this.width = width;
+		elements = new ArrayList<T>(0);
+	}
+
+	// pseudo code: Try to fit piece into node X
+	// if there are more than 1 pieces in nodeX, and the depth of the
+	// node<MAXDEPTH, subdivide it.
+	// try and place both of the objects in a sub-node (you only have to try
+	// once,try the sub-node that
+	// contains the center of the rectangle.
+	// you can do a naive insert as well, testing all 4 points
+	public boolean insert(T piece) {
+		elements.add(piece);
+		if (elements.size() > MAX_PIECES_BEFORE_SPLIT_ATTEMPT) {
+
+		}
+		return true;
+	}
+
+	private void insertTopLeft(T piece) {
+
+	}
+
+	private void insertTopRight(T piece) {
+
+	}
+
+	private void insertBottomLeft(T piece) {
+
+	}
+
+	private void insertBottomRight(T piece) {
+
+	}
+
+}

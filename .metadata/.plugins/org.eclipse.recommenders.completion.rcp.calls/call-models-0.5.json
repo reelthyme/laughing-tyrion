@@ -1,0 +1,22 @@
+{
+  "C:\\Program Files\\Java\\jre7\\lib\\rt.jar": {
+    "coordinate": "jre:jre:zip:call:1.0.0",
+    "location": "C:\\Program Files\\Java\\jre7\\lib\\rt.jar",
+    "status": "RESOLVED"
+  },
+  "C:\\Users\\Co Ta\\Desktop\\Eclipse Projects\\Faster [Game]\\lib\\slick.jar": {
+    "location": "C:\\Users\\Co Ta\\Desktop\\Eclipse Projects\\Faster [Game]\\lib\\slick.jar",
+    "status": "UNRESOLVED",
+    "error": "No call model found for \u0027C:\\Users\\Co Ta\\Desktop\\Eclipse Projects\\Faster [Game]\\lib\\slick.jar\u0027. Neither fingerprint \u0027dcb1c4dfb10f3e37cc950dd051668c0ae50134e3\u0027 nor symbolic name \u0027slick\u0027 are known."
+  },
+  "C:\\Users\\Co Ta\\Desktop\\Eclipse Projects\\Faster [Game]\\lib\\jars\\slick.jar": {
+    "location": "C:\\Users\\Co Ta\\Desktop\\Eclipse Projects\\Faster [Game]\\lib\\jars\\slick.jar",
+    "status": "UNRESOLVED",
+    "error": "No call model found for \u0027C:\\Users\\Co Ta\\Desktop\\Eclipse Projects\\Faster [Game]\\lib\\jars\\slick.jar\u0027. Neither fingerprint \u0027dcb1c4dfb10f3e37cc950dd051668c0ae50134e3\u0027 nor symbolic name \u0027slick\u0027 are known."
+  },
+  "C:\\Users\\Co Ta\\Desktop\\Eclipse Projects\\Faster [Game]\\src": {
+    "location": "C:\\Users\\Co Ta\\Desktop\\Eclipse Projects\\Faster [Game]\\src",
+    "status": "UNRESOLVED",
+    "error": "No class path info available for \u0027C:\\Users\\Co Ta\\Desktop\\Eclipse Projects\\Faster [Game]\\src\u0027. Skipped."
+  }
+}
