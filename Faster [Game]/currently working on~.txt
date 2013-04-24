@@ -9,6 +9,8 @@ Possible Future Tasks:
 Spritesheet
 Menu
 GUI
+UML diagram + class roles + making sure classes (esp. collidable are hiding information (caller doesn't have to assume anything))
+Learn Eclipse refactoring and other tools
 
 Postponed:
 Editing the source files and recompiling the jar
